@@ -90,16 +90,16 @@ performance.
 Insert 1 million user rows in one database transaction.
 Then query all users once.
 
-![](results/simple.png)
+![](results/simple.svg)
 
                       insert        query
     -------------------------------------
-    craw             1234 ms       608 ms
-    mattn            1537 ms      1267 ms
-    modernc          5557 ms      1379 ms
-    ncruces         10073 ms      6080 ms
-    sqinn             883 ms       641 ms
-    zombie           1862 ms       325 ms
+    craw             1622 ms       908 ms
+    mattn            2035 ms      1851 ms
+    modernc          7218 ms      1851 ms
+    ncruces          4706 ms      1959 ms
+    sqinn            1337 ms       927 ms
+    zombie           2623 ms       584 ms
 
 
 ### Complex
@@ -109,16 +109,16 @@ Then insert 20000 articles (100 articles for each user) in another transaction.
 Then insert 400000 comments (20 comments for each article) in another transaction.
 Then query all users, articles and comments in one big JOIN statement.
 
-![](results/complex.png)
+![](results/complex.svg)
 
                        insert       query
     -------------------------------------
-    craw               729 ms      667 ms
-    mattn              911 ms     1387 ms
-    modernc           3211 ms     1633 ms
-    ncruces           5159 ms     5380 ms
-    sqinn              574 ms      709 ms
-    zombie            1400 ms      507 ms
+    craw              1011 ms      972 ms
+    mattn             1231 ms     2047 ms
+    modernc           4414 ms     2290 ms
+    ncruces           2985 ms     2577 ms
+    sqinn              911 ms     1068 ms
+    zombie            2187 ms      858 ms
 
 
 ### Many
@@ -127,16 +127,16 @@ Insert N users in one database transaction.
 Then query all users 1000 times.
 This benchmark is used to simluate a read-heavy use case.
 
-![](results/many.png)
+![](results/many.svg)
 
             query/N=10  query/N=100  query/N=1000
     --------------------------------------------------------
-    craw         14 ms        65 ms        520 ms
-    mattn        30 ms       130 ms       1143 ms
-    modernc      35 ms       135 ms       1180 ms
-    ncruces     185 ms       829 ms       7230 ms
-    sqinn        25 ms        83 ms        619 ms
-    zombie       17 ms        36 ms        225 ms
+    craw         58 ms       168 ms       1282 ms
+    mattn        52 ms       165 ms       2003 ms
+    modernc      58 ms       186 ms       2335 ms
+    ncruces      73 ms       375 ms       2665 ms
+    sqinn       112 ms       331 ms       3071 ms
+    zombie       34 ms        58 ms        646 ms
 
 
 ### Large
@@ -145,16 +145,16 @@ Insert 10000 users with N bytes of row content.
 Then query all users.
 This benchmark is used to simluate reading of large (gigabytes) databases.
 
-![](results/large.png)
+![](results/large.svg)
 
           query/N=50000  query/N=100000  query/N=200000
     ---------------------------------------------------
-    craw         197 ms          346 ms          624 ms
-    mattn        168 ms          290 ms          591 ms
-    modernc      276 ms          514 ms          888 ms
-    ncruces      244 ms          391 ms          789 ms
-    sqinn        519 ms         1085 ms         2264 ms
-    zombie       552 ms         1071 ms         2198 ms
+    craw         429 ms          784 ms         1639 ms
+    mattn        308 ms          624 ms         1098 ms
+    modernc      599 ms         1054 ms         1983 ms
+    ncruces      395 ms          678 ms         1271 ms
+    sqinn       1269 ms         2553 ms         5707 ms
+    zombie      1064 ms         2057 ms         4115 ms
 
 
 ### Concurrent
@@ -163,16 +163,16 @@ Insert one million users.
 Then have N goroutines query all users.
 This benchmark is used to simulate concurrent reads.
 
-![](results/concurrent.png)
+![](results/concurrent.svg)
 
             query/N=2  query/N=4  query/N=8
     ---------------------------------------
-    craw       692 ms    1100 ms    1873 ms
-    mattn     1516 ms    1840 ms    3483 ms
-    modernc   2889 ms    7144 ms   18674 ms
-    ncruces   8268 ms   12710 ms   25792 ms
-    sqinn      854 ms    1411 ms    2460 ms
-    zombie     367 ms     646 ms    1140 ms
+    craw       796 ms    1145 ms    1553 ms
+    mattn     1782 ms    2019 ms    2642 ms
+    modernc   3554 ms   10789 ms   39959 ms
+    ncruces   2075 ms    2321 ms    3203 ms
+    sqinn      910 ms    1327 ms    1965 ms
+    zombie     509 ms     777 ms    1054 ms
 
 
 Summary
