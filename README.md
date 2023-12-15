@@ -1,6 +1,19 @@
 Benchmarks for Golang SQLite Drivers
 ==============================================================================
 
+> [!IMPORTANT]
+> I noticed my SQLite driver [`github.com/ncruces/go-sqlite3`](https://github.com/ncruces/go-sqlite3)
+> was doing poorly in this benchmark that got posted on [Hacker News](https://news.ycombinator.com/item?id=38626698)
+> and [reddit](https://www.reddit.com/r/golang/comments/18hgbyl/i_benchmarked_six_go_sqlite_drivers_and_found_you/).
+>
+> I traced it back to a [new feature](https://github.com/ncruces/go-sqlite3/commit/c667a1f469f28879a044807f8ed83e36645977ba),
+> and a serious [performance regression](https://github.com/ncruces/go-sqlite3/commit/d862f47d95d522fb7a63aacf1259714aff986d46)
+> (introduced to fix a compiler crash).\
+> I implemented a [fix](https://github.com/ncruces/go-sqlite3/commit/964a42c76deb9c7dcff2dca5c19f0453e062c55f)
+> (a 4x larger, PLRU bit cache), released a new version, and ran the numbers again (different machine, configuration).
+>
+> **The results of the new experiment are below**.
+
 This work is sponsored by Monibot - Easy Server and Application Monitoring.
 Try out Monibot at [https://monibot.io](https://monibot.io?ref=go-sqlite-bench).
 It's free.
@@ -11,12 +24,12 @@ For benchmarks I used the following libraries:
 - craw, `crawshaw.io/sqlite`, a CGO-based solution. This is not a `database/sql` driver.
 
 - mattn, `github.com/mattn/go-sqlite3`, a CGO-based solution. This library is
-  (still) the de-facto standard and widely used. 
+  (still) the de-facto standard and widely used.
 
 - modernc, `modernc.org/sqlite`, a pure Go solution. This is a newer library,
   based on the SQLite C code re-written in Go.
 
-- ncruces, `github.com/ncruces/go-sqlite3`, a pure Go solution based on WASM (?). 
+- ncruces, `github.com/ncruces/go-sqlite3`, a pure Go solution based on WASM (?).
 
 - sqinn, `github.com/cvilsmeier/sqinn-go`, a solution without CGO. It uses
   `github.com/cvilsmeier/sqinn` to access SQLite database files.
@@ -27,13 +40,13 @@ For benchmarks I used the following libraries:
 
 The test setup is as follows:
 
-- OS: Debian/GNU Linux amd64 version 12.3
-- CPU: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz, 4 physical cores, 8 logical cores
-- RAM: 16GB
-- Disk: 1TB NVME SSD
+- OS: Debian GNU/Linux rodete
+- CPU: Intel(R) Xeon(R) W-2135 CPU @ 3.70GHz
+- RAM: 64GB
+- Disk: 512 NVME SSD
 - go version go1.21.5 linux/amd64
 
-The benchmark was run on 2023-12-09, with then-current library versions.
+The benchmark was run on 2023-12-15, with then-current library versions.
 See go.mod for library versions. Each test was run once for warmup.
 The second run was then recorded.
 
